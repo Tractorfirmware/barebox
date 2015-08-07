@@ -50,7 +50,7 @@ static int do_splash(int argc, char *argv[])
 	}
 	image_file = argv[optind];
 
-	sc = fb_open(fbdev, offscreen);
+	sc = fb_open(fbdev);
 	if (IS_ERR(sc)) {
 		perror("fd_open");
 		return PTR_ERR(sc);

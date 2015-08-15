@@ -338,6 +338,7 @@ static void i2c_fsl_set_clk(struct fsl_i2c_struct *i2c_fsl,
 	i2c_fsl->dfsrr = dfsr;
 }
 #else
+#if defined (CONFIG_COMMON_CLK)
 static void i2c_fsl_set_clk(struct fsl_i2c_struct *i2c_fsl,
 			    unsigned int rate)
 {
@@ -374,6 +375,11 @@ static void i2c_fsl_set_clk(struct fsl_i2c_struct *i2c_fsl,
 	dev_dbg(&i2c_fsl->adapter.dev, "<%s> IFDR[IC]=0x%x, REAL DIV=%d\n",
 		__func__, i2c_clk_div[i][1], i2c_clk_div[i][0]);
 }
+#else
+static void i2c_fsl_set_clk(struct fsl_i2c_struct *i2c_fsl,
+			    unsigned int rate)
+{}
+#endif
 #endif
 
 static int i2c_fsl_write(struct i2c_adapter *adapter, struct i2c_msg *msgs)

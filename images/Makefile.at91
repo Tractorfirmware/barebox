@@ -1,0 +1,7 @@
+#
+# barebox image generation Makefile for AT91 images
+#
+
+pblx-y += start_at91sam9x5ek
+FILE_barebox-at91sam9x5ek.img = start_at91sam9x5ek.pblx
+image-y += barebox-at91sam9x5ek.img

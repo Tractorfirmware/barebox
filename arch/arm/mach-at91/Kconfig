@@ -44,6 +44,7 @@ config SOC_AT91SAM9
 	select COMMON_CLK_OF_PROVIDER
 	select AT91SAM9_SMC
 	select CLOCKSOURCE_ATMEL_PIT
+	select PINCTRL
 
 config SOC_SAMA5
 	bool

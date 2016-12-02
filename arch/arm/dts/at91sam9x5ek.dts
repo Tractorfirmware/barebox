@@ -22,3 +22,10 @@
 &i2c0 {
 	status = "disabled";
 };
+
+/*
+ * This one conflicts with SPI NOR on the SoM
+ */
+&mmc1 {
+	status = "disabled";
+};

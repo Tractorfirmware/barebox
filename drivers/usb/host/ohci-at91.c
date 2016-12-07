@@ -31,6 +31,7 @@ struct ohci_at91_priv {
 	struct device_d *dev;
 	struct clk *iclk;
 	struct clk *fclk;
+	struct clk *hclk;
 	struct ohci_regs __iomem *regs;
 };
 
@@ -50,6 +51,12 @@ static int at91_start_clock(struct ohci_at91_priv *ohci_at91)
 		return ret;
 	}
 
+	ret = clk_enable(ohci_at91->hclk);
+	if (ret < 0) {
+		dev_err(ohci_at91->dev, "Failed to enable 'hclk'\n");
+		return ret;
+	}
+
 	return 0;
 }
 
@@ -57,6 +64,7 @@ static void at91_stop_clock(struct ohci_at91_priv *ohci_at91)
 {
 	clk_disable(ohci_at91->fclk);
 	clk_disable(ohci_at91->iclk);
+	clk_disable(ohci_at91->hclk);
 }
 
 static int at91_ohci_probe(struct device_d *dev)
@@ -85,6 +93,12 @@ static int at91_ohci_probe(struct device_d *dev)
 	if (IS_ERR(ohci_at91->fclk)) {
 		dev_err(dev, "Failed to get 'fclk'\n");
 		return PTR_ERR(ohci_at91->fclk);
+	}
+
+	ohci_at91->hclk = clk_get(NULL, "hclk");
+	if (IS_ERR(ohci_at91->hclk)) {
+		dev_err(dev, "Failed to get 'hclk'\n");
+		return PTR_ERR(ohci_at91->hclk);
 	}
 
 	/*
